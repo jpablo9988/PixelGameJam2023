@@ -1,0 +1,78 @@
+VAR isMurder = false
+VAR explored = false
+
+VAR location = ""
+VAR time = ""
+VAR weapon = ""
+
+VAR thisLocation = ""
+
+VAR showLocation = false
+VAR showTime = false
+VAR showWeapon = false
+
+VAR victim = ""
+->Autopsy
+== Investigate ==
+{
+    -isMurder == false:
+    #speed:0.02,0 #character:Fox
+        The glitz. The glamour. The shiny stones and overwhelming decor surrounds the central lobby of this ship.
+        I could almost get absorbed into this world if it wasn't for the murder that happened.
+        Ms. Puffin's sight shines as she sees me although she seems a bit preocupied at the moment.
+        I hope she doesn't get too drunk...
+        
+        
+        
+    -isMurder == true:
+    #speed:0.05,0 #character:Fox
+        Oh, poor Ms. Puffin.
+        Her body is layed gently in the middle of the lobby, with a strange lack of actual blood.
+        She almost look like she's sleeping.
+        What monster did this? I must find out and give you some closure, madam.
+    
+}
+{
+    -showLocation == true && thisLocation == location:
+    It seems that the room logs has been tampered with. This can't be good, I can't explore this room any further.
+    ->DONE
+    
+    -showLocation == false || thisLocation != location:
+    I could piece together who entered here last night by looking the the room logs, although that could <b>take me some time.</b>
+        If I want to find who entered here, I might need to check the neighbouring rooms...
+    Someone must've went through them to enter here!
+    
+    Do I want to explore further?
+        + [Explore the Logs <i>(This will consume time)</i>]...<i>Some time has passed</i>..
+        ->ExploreRoom
+        + [Leave it for now.] ->QuitRoom
+    
+}
+== ExploreRoom ==
+~explored = true
+Here {are|were} my findings.
+->DONE
+== AutopsyBody ==
+Let's see now...
+-> DONE
+== QuitRoom ==
+Hmm. I can come back later if time allows me to. 
+-> DONE
+
+== Autopsy ==
+#speed:0.02,0 #character:Fox
+{victim}'s body is staring at me. 
+{
+    -showLocation == true && thisLocation == location:
+        I know {victim} was murdered in this room.
+    -showLocation == true && thisLocation != location:
+        {victim} was murdered in {location}. I can see a small hint of drag marks around the body.
+    -showTime == true:
+        {victim} was murdered at around {time}.
+    -showWeapon == true:
+        I know {victim} was murdered by (a) {weapon}!
+}
+I could do a deeper autopsy, but this could consume time. 
++ [Do a deeper autopsy <i>(This will consume time)</i>]...<i>Some time has passed</i>..
+        ->AutopsyBody
++ [Leave it for now.] ->QuitRoom
