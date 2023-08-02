@@ -1,2 +1,7 @@
 # PixelGameJam2023
-A Generative Murder Mystery game made by J~Pxl and IgnatiusYote.
+Credits:
+  J~Pxls (JP Amorocho): Code, Art, Music, Game Design & Story Dialogue.
+  IgnatiusYote: Game Design & Story Dialogue.
+
+External Libraries Used:
+    INK and LeanTween.
